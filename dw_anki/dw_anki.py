@@ -5,12 +5,12 @@ import os
 import json
 import base64
 import re
+import sys
 import logging
 import subprocess #to call lame/convert to resize media
 import operator
 
-# Top page for Nicos Weg A1
-TOP_URL= 'https://learngerman.dw.com/en/beginners/c-36519789'
+LESSON_URL= 'https://learngerman.dw.com/en/beginners/c-36519789'
 
 DW_URL = 'https://learngerman.dw.com/'
 DECK_NAME = 'DW Nicos Weg A1'
@@ -227,15 +227,6 @@ def getVocabRows(tree):
         log.error("No rows found with vocabulary")
     return rows
 
-def getLessonURLs(url):
-    page = requests.get(url)
-    tree = html.fromstring(page.content)
-
-    lessonURLs = tree.xpath('//a[@data-lesson-id]/@href')
-    # Prepend with DW and append 'lv' for vocab page
-    lessonURLs = list(map((lambda url: DW_URL + url + '/lv'), lessonURLs))
-    return lessonURLs
-
 def storeImage(imgURL):
     if not imgURL:
         return None
@@ -327,6 +318,10 @@ def storeCards(cards):
             log.error(err.args[0] + ": " + card.english)
 
 
+def getLessonURL():
+    return sys.argv[1] or LESSON_URL
+
+
 def main():
     # Initialize directories needed, relative to CWD
     if not os.path.isdir(IMAGES_DIR):
@@ -344,20 +339,17 @@ def main():
                             logging.StreamHandler()
                         ])
 
-
     log.info("Starting...")
 
     log.info("Creating deck if it does not exist: " + DECK_NAME)
     invoke(createDeckJSON(DECK_NAME))
 
-    log.info("Using lessons from: " + TOP_URL)
-    lessonURLs = getLessonURLs(TOP_URL)
+    lessonURL = getLessonURL()
 
     cards = {} # For duplicates we'll append the german values
-    for url in lessonURLs:
-        log.info("Building Anki cards from: " + url)
-        buildAnkiFromURL(cards, url)
-        log.info("Done with lesson: " + url)
+    log.info("Building Anki cards from: " + lessonURL)
+    buildAnkiFromURL(cards, lessonURL)
+    log.info("Done with lesson: " + lessonURL)
 
     log.info("Creating all cards in Anki now...")
     storeCards(cards)
