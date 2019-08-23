@@ -313,9 +313,9 @@ def storeCards(cards):
             else:
                 log.info("Added card {}: {}".format(res, card.english))
         except Warning as err:
-            log.warning(err.args[0] + ": " + card.english)
+            log.warning(err.args[0] + ": " + card.getEnglish())
         except Exception as err:
-            log.error(err.args[0] + ": " + card.english)
+            log.error(err.args[0] + ": " + card.getEnglish())
 
 
 def getLessonURL():
