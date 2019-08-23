@@ -10,8 +10,6 @@ import logging
 import subprocess #to call lame/convert to resize media
 import operator
 
-LESSON_URL= 'https://learngerman.dw.com/en/beginners/c-36519789'
-
 DW_URL = 'https://learngerman.dw.com/'
 DECK_NAME = 'DW Nicos Weg A1'
 IMAGES_DIR = 'images'
@@ -319,7 +317,7 @@ def storeCards(cards):
 
 
 def getLessonURL():
-    return sys.argv[1] or LESSON_URL
+    return sys.argv[1] 
 
 
 def main():
