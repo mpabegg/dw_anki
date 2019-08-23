@@ -113,7 +113,7 @@ def addNoteJSON(deck, tags, front, back):
         "params": {
             "note": {
                 "deckName": deck,
-                "modelName": "Basic",
+                "modelName": "Basic (and reversed card)",
                 "fields": {
                     "Front": front,
                     "Back": back
