@@ -117,7 +117,7 @@ def addNoteJSON(deck, tags, front, back):
                     "Back": back
                 },
                 "options": {
-                    "allowDuplicate": True
+                    "allowDuplicate": False
                 },
                 "tags": tags
             }
