@@ -111,7 +111,7 @@ def addNoteJSON(deck, tags, front, back):
         "params": {
             "note": {
                 "deckName": deck,
-                "modelName": "Basic (and reversed card)",
+                "modelName": "Basic",
                 "fields": {
                     "Front": front,
                     "Back": back
@@ -317,7 +317,11 @@ def storeCards(cards):
 
 
 def getLessonURL():
-    return sys.argv[1] 
+    lesson = sys.argv[1]
+    if lesson.endswith("/lv"):
+        return lesson
+
+    return lesson + "/lv"
 
 
 def main():
